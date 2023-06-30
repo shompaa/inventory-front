@@ -57,6 +57,13 @@ export const SalesCard = ({
               {moneyFormat(price)}
             </span>
           </div>
+          <p
+            className={`text-xs ${
+              stock <= 5 ? "text-red-500" : "text-gray-600"
+            }`}
+          >
+            Stock: {stock}
+          </p>
         </div>
       </div>
       <div className="p-2 flex flex-col justify-end">

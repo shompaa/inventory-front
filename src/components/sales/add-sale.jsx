@@ -7,7 +7,7 @@ import { useProductsBySearch } from "./hooks/use-products";
 import { useCreateSale } from "./hooks/use-sales";
 import { Button, Input, UncontrolledInput } from "../ui/shared";
 import { SalesCard } from "../ui/shared/card/sale-card";
-import { closeModal } from "../../store";
+import { closeModal, saleCreated } from "../../store";
 import { moneyFormat } from "../../utils/utils";
 
 export const AddSale = () => {
@@ -113,11 +113,12 @@ export const AddSale = () => {
           quantity: product.quantity,
         })),
         total,
+        voucher,
       };
       await saleDataMutate(saleData);
       console.log("Venta guardada con éxito");
       dispatch(closeModal());
-      navigate("/sales");
+      dispatch(saleCreated());
     } catch (error) {
       console.log(error);
     }

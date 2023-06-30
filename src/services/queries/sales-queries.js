@@ -8,7 +8,6 @@ export async function getSales() {
 }
 
 export async function getProductBySearchParam(search) {
-  console.log("search", PRODUCTS_SEARCH_URL(search));
   const response = await client.get(enviroment.PRODUCTS_SEARCH_URL(search));
   return Promise.resolve(response?.data?.data);
 }

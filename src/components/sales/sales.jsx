@@ -1,20 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, TD, TR, Table, modalTypesKeys } from "../ui/shared";
 import { useSales } from "./hooks/use-sales";
-import { useDispatch } from "react-redux";
-import { openModal } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal, saleReset } from "../../store";
+import { dateFormat, moneyFormat } from "../../utils/utils";
 
 export const Sales = () => {
   const dispatch = useDispatch();
   const { data, isLoading, refetch, isError, isRefetching, error } = useSales();
+  const saleCreated = useSelector((state) => state.sales.saleCreated);
 
+  useEffect(() => {
+    if (saleCreated) {
+      refetch();
+      dispatch(saleReset());
+    }
+  }, [saleCreated, dispatch]);
   const handleOpenModal = () => {
-    dispatch(openModal({ modalType: modalTypesKeys.addSale, modalProps: {} }));
+    dispatch(
+      openModal({
+        modalType: modalTypesKeys.addSale,
+      })
+    );
   };
 
   const tableTitles = [
     "#",
-    "Nro compra",
+    "N° compra",
+    "N° boleta",
     "Fecha compra",
     "Monto",
     "Vendedor",
@@ -33,8 +46,9 @@ export const Sales = () => {
             <TR key={sale.id}>
               <TD>{index + 1}</TD>
               <TD>{sale.orderId}</TD>
-              <TD>{sale.date}</TD>
-              <TD>{sale.total}</TD>
+              <TD>{sale.voucher}</TD>
+              <TD>{dateFormat(sale.date)}</TD>
+              <TD>{moneyFormat(sale.total)}</TD>
               <TD>{sale.seller.name}</TD>
               <TD>Eliminar</TD>
             </TR>
