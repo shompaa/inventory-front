@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { Button, Container, TD, TR, Table, Modal } from "../ui/shared";
+import { Button, Container, TD, TR, Table, modalTypesKeys } from "../ui/shared";
 import { useSales } from "./hooks/use-sales";
-import { AddSale } from "./add-sale";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../store";
 
 export const Sales = () => {
+  const dispatch = useDispatch();
   const { data, isLoading, refetch, isError, isRefetching, error } = useSales();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+    dispatch(openModal({ modalType: modalTypesKeys.addSale, modalProps: {} }));
   };
 
   const tableTitles = [
@@ -45,15 +41,6 @@ export const Sales = () => {
           ))}
         </Table>
       </div>
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        size="m"
-        title="Agregar Venta"
-      >
-        <AddSale />
-      </Modal>
     </Container>
   );
 };

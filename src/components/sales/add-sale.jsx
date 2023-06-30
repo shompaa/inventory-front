@@ -1,20 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Input } from "../ui/shared";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { validateSalesForm } from "./utils/validations";
-import { SalesCard } from "../ui/shared/card/sale-card";
 import { useProductsBySearch } from "./hooks/use-products";
-import { moneyFormat } from "../../utils/utils";
 import { useCreateSale } from "./hooks/use-sales";
-import { useNavigate } from "react-router-dom";
+import { Button, Input, UncontrolledInput } from "../ui/shared";
+import { SalesCard } from "../ui/shared/card/sale-card";
+import { closeModal } from "../../store";
+import { moneyFormat } from "../../utils/utils";
 
 export const AddSale = () => {
   const schema = validateSalesForm();
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [voucher, setVoucher] = useState("");
   const [search, setSearch] = useState("");
   const [searchedProducts, setSearchedProducts] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { data, isLoading, refetch, isError, isRefetching, error } =
     useProductsBySearch(search);
   const { mutateAsync: saleDataMutate } = useCreateSale();
@@ -35,10 +39,6 @@ export const AddSale = () => {
       setSearchedProducts([]);
     };
   }, [search, data]);
-
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
 
   const {
     register,
@@ -105,7 +105,7 @@ export const AddSale = () => {
     setSearch(data.search || "");
   };
 
-  const handleCreateSale = () => {
+  const handleCreateSale = async () => {
     try {
       const saleData = {
         products: products.map((product) => ({
@@ -114,7 +114,9 @@ export const AddSale = () => {
         })),
         total,
       };
-      saleDataMutate(saleData);
+      await saleDataMutate(saleData);
+      console.log("Venta guardada con éxito");
+      dispatch(closeModal());
       navigate("/sales");
     } catch (error) {
       console.log(error);
@@ -186,7 +188,21 @@ export const AddSale = () => {
         </div>
       </div>
       <div className="absolute inset-x-0 bottom-0 p-3 h-auto">
-        <Button onClick={handleCreateSale} fullWidth>
+        <div className="p-2">
+          <UncontrolledInput
+            name="voucher"
+            label="Ingrese el número de comprobante"
+            placeholder="Ingrese el número de comprobante"
+            variant="primary-search"
+            value={voucher}
+            onChange={(e) => setVoucher(e.target.value)}
+          />
+        </div>
+        <Button
+          disabled={products.length <= 0 || !voucher}
+          onClick={handleCreateSale}
+          fullWidth
+        >
           Agregar venta
         </Button>
       </div>

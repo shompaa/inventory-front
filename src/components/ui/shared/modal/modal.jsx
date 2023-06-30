@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { modalTypes } from "./modalTypes";
+import { closeModal } from "../../../../store";
 
-export const Modal = ({ isOpen, children, onClose, size, title, footer }) => {
+export const Modal = ({ size, title, footer }) => {
+  const modal = useSelector((state) => state.modal);
+  const ModalContent = modalTypes[modal.modalType];
+  const dispatch = useDispatch();
   const sizeClasses = {
     s: "w-64 h-72",
     m: "w-3/4 h-2/3",
@@ -9,19 +15,17 @@ export const Modal = ({ isOpen, children, onClose, size, title, footer }) => {
     xl: "w-full h-full max-w-screen-xl max-h-screen-90",
   };
 
-  // Asegurarse de que el cuerpo del documento no pueda desplazarse
-  // cuando el modal está abierto
-  React.useEffect(() => {
-    if (isOpen) {
+  useEffect(() => {
+    if (modal.isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [isOpen]);
+  }, [modal.isOpen]);
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {modal.isOpen && (
         <motion.div
           className="fixed z-50 top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50"
           initial={{ opacity: 0 }}
@@ -42,12 +46,14 @@ export const Modal = ({ isOpen, children, onClose, size, title, footer }) => {
               </div>
             )}
 
-            <div className="px-4 py-2">{children}</div>
+            <div className="px-4 py-2">
+              <ModalContent />
+            </div>
 
             {footer && <div className="px-4 py-2 border-t">{footer}</div>}
 
             <button
-              onClick={onClose}
+              onClick={() => dispatch(closeModal())}
               className="absolute top-0 right-0 px-4 py-2 text-lg font-bold"
             >
               X
