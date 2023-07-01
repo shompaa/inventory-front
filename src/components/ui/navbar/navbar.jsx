@@ -4,16 +4,17 @@ import { Icon, NavItem } from "../shared";
 import {
   Bars3CenterLeftIcon,
   ChevronDownIcon,
-  PencilIcon,
 } from "@heroicons/react/24/solid";
 import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
+import { useUser } from "../../../store";
 
 const Navbar = ({ showNav, setShowNav }) => {
+  const { name, lastName } = useUser();
   const links = [
     {
       path: "/logout",
       title: "Cerrar sesión",
-      icon: <Icon icon="LogoutIcon" color="secondary"  />,
+      icon: <Icon icon="LogoutIcon" color="secondary" />,
     },
   ];
 
@@ -75,13 +76,13 @@ const Navbar = ({ showNav, setShowNav }) => {
             <Menu.Button className="inline-flex w-full justify-center items-center">
               <picture>
                 <img
-                  src="src\assets\images\shrek.jpg"
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                   className="rounded-full h-8 md:mr-4 border-2 border-slate-900 shadow-sm"
                   alt="Profile picture"
                 />
               </picture>
               <span className="hidden md:block font-medium text-slate-800">
-                Shrek
+                {name} {lastName}
               </span>
               <ChevronDownIcon className="ml-2 h-4 w-4 text-slate-800" />
             </Menu.Button>

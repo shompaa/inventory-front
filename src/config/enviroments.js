@@ -4,6 +4,7 @@ const getEndpoints = (baseURL) => {
   return {
     LOGIN_URL: `${baseURL}/auth/login`,
     SALES_URL: `${baseURL}/sales`,
+    PRODUCTS_URL: `${baseURL}/products`,
     PRODUCTS_SEARCH_URL: (search) => `${baseURL}/products/search/${search}`,
     // REGISTER_URL: `${baseURL}/auth/register`,
     // REFRESH_URL: `${baseURL}/auth/refresh`,

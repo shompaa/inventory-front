@@ -1,1 +1,2 @@
-export * from './sales-queries';
+export * from './sales.queries';
+export * from './dashboard.queries';

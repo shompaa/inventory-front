@@ -7,7 +7,7 @@ export const ProtectedRoute = ({ allowedRoles }) => {
   const { status, role } = useUser();
   const location = useLocation();
 
-  const redirectPath = role === "SELLER" ? "/addSale" : "/dashboard";
+  const redirectPath = role === "SELLER" ? "/sales" : "/dashboard";
 
   return allowedRoles.includes(role) ? (
     <Layout>

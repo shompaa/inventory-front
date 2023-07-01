@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getSales } from "../../../services/queries";
-import { createSale } from "../../../services/mutations";
+import { createSale, deleteSale } from "../../../services/mutations";
 
 export const useSales = () => {
   return useQuery("getSales", () => getSales());
@@ -15,3 +15,13 @@ export const useCreateSale = () => {
     },
   });
 };
+
+export const useDeleteSale = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((id) => deleteSale(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries("deleteSales");
+    },
+  });
+}
