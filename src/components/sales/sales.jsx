@@ -4,6 +4,7 @@ import { useDeleteSale, useSales } from "./hooks/use-sales";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal, saleReset } from "../../store";
 import { dateFormat, moneyFormat } from "../../utils/utils";
+
 const tableTitles = [
   "#",
   "N° compra",
@@ -45,16 +46,16 @@ export const Sales = () => {
   };
 
   return (
-    <Container title="Ventas">
-      <div className="pb-3">
+    <Container title="Ventas" className="flex flex-col sm:flex-row">
+      <div className="pb-3 flex-grow">
         <Button onClick={handleOpenModal} variant="primary">
           Agregar Venta
         </Button>
       </div>
-      <div>
+      <div className="flex-grow overflow-x-auto">
         <Table titles={tableTitles}>
           {data?.map((sale, index) => (
-            <TR key={sale.id}>
+            <TR key={sale.id} className="text-xs sm:text-base">
               <TD>{index + 1}</TD>
               <TD>{sale.orderId}</TD>
               <TD>{sale.voucher}</TD>
@@ -65,6 +66,7 @@ export const Sales = () => {
                 <Button
                   variant="link-danger"
                   onClick={() => handleDeleteSale(sale.id)}
+                  className="text-xs sm:text-base"
                 >
                   Eliminar
                 </Button>
