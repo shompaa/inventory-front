@@ -4,6 +4,7 @@ import { useDeleteSale, useSales } from "./hooks/use-sales";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal, saleReset } from "../../store";
 import { dateFormat, moneyFormat } from "../../utils/utils";
+import { AddSale } from "./add-sale";
 
 const tableTitles = [
   "#",
@@ -34,6 +35,7 @@ export const Sales = () => {
         modalProps: {
           title: "Crear Venta",
         },
+        ModalContent: AddSale,
       })
     );
   };

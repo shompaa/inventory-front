@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { modalTypes } from "./modalTypes";
 import { closeModal } from "../../../../store";
 
 export const Modal = ({ size, footer }) => {
   const modal = useSelector((state) => state.modal);
-  const ModalContent = modalTypes[modal.modalType];
+  const ModalContent = modal.modalProps.ModalContent;
   const dispatch = useDispatch();
   const title = modal.modalProps.title;
   const sizeClasses = {

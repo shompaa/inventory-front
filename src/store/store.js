@@ -10,6 +10,13 @@ export const store = configureStore({
     modal: modalSlice.reducer,
     sales: salesSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["modal/openModal"],
+        ignoredPaths: ["modal.modalProps.ModalContent"],
+      },
+    }),
 });
 
 export const useUser = () => useSelector((state) => state.auth);
