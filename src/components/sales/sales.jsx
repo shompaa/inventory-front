@@ -31,6 +31,9 @@ export const Sales = () => {
     dispatch(
       openModal({
         modalType: modalTypesKeys.addSale,
+        modalProps: {
+          title: "Crear Venta",
+        },
       })
     );
   };

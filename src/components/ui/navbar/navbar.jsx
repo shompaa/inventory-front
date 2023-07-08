@@ -1,40 +1,47 @@
-import { useState, Fragment } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Icon, NavItem } from '../shared';
+import { useState, Fragment } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Icon, NavItem } from "../shared";
 import {
   Bars3CenterLeftIcon,
   ChevronDownIcon,
-} from '@heroicons/react/24/solid';
-import { BellIcon, CheckIcon } from '@heroicons/react/24/outline';
-import { useUser } from '../../../store';
+} from "@heroicons/react/24/solid";
+import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
+import { useUser } from "../../../store";
+import { get } from "react-hook-form";
 
 const Navbar = ({ showNav, setShowNav }) => {
   const { name, lastName } = useUser();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const links = [
     {
-      path: '/logout',
-      title: 'Cerrar sesión',
-      icon: <Icon icon='LogoutIcon' color='secondary' />,
+      path: "/logout",
+      title: "Cerrar sesión",
+      icon: <Icon icon="LogoutIcon" color="secondary" />,
     },
   ];
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const getInitials = () => {
+    let initials = "";
+    if (name) initials += name.charAt(0).toUpperCase();
+    if (lastName) initials += lastName.charAt(0).toUpperCase();
+    return initials;
+  };
 
   return (
     <div
       className={`fixed w-full h-16 flex justify-between items-center transition-all duration-300 ${
-        showNav ? 'pl-56' : ''
+        showNav ? "pl-56" : ""
       }`}
     >
-      <div className='pl-4 md:pl-6'>
+      <div className="pl-4 md:pl-6">
         <Bars3CenterLeftIcon
-          className='h-8 w-8 text-gray-500 cursor-pointer'
+          className="h-8 w-8 text-gray-500 cursor-pointer"
           onClick={() => setShowNav(!showNav)}
         />
       </div>
-      <div className='flex items-center pr-4 md:pr-16'>
-        <div className='relative mr-5 md:mr-8 cursor-pointer text-slate-800'>
+      <div className="flex items-center pr-4 md:pr-16">
+        {/* <div className='relative mr-5 md:mr-8 cursor-pointer text-slate-800'>
           <BellIcon
             className='h-6 w-6'
             onClick={() => setIsPopoverOpen(!isPopoverOpen)}
@@ -75,23 +82,21 @@ const Navbar = ({ showNav, setShowNav }) => {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
-        <div className='relative inline-block text-left'>
+        </div> */}
+        <div className="relative inline-block text-left">
           <div
-            className='inline-flex w-full justify-center items-center'
+            className="inline-flex w-full justify-center items-center"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            <picture>
-              <img
-                src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
-                className='rounded-full h-8 md:mr-4 border-2 border-slate-900 shadow-sm'
-                alt='Profile picture'
-              />
-            </picture>
-            <span className='hidden md:block font-medium text-slate-800'>
+            <div className="relative inline-flex items-center justify-center w-8 h-8 overflow-hidden rounded-full bg-gray-600 mr-1">
+              <span className="font-medium text-xs text-amber-300">
+                {getInitials()}
+              </span>
+            </div>
+            <span className="hidden md:block font-medium text-slate-800">
               {name} {lastName}
             </span>
-            <ChevronDownIcon className='ml-2 h-4 w-4 text-slate-800' />
+            <ChevronDownIcon className="ml-2 h-4 w-4 text-slate-800" />
           </div>
           <AnimatePresence>
             {isDropdownOpen && (
@@ -100,14 +105,14 @@ const Navbar = ({ showNav, setShowNav }) => {
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.95 }}
                 transition={{ duration: 0.1 }}
-                className='absolute right-0 w-56 z-50 mt-2 origin-top-right bg-slate-900 rounded shadow-sm'
+                className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-slate-900 rounded shadow-sm"
               >
-                <div className='p-1'>
+                <div className="p-1">
                   {links.map((item) => (
                     <div key={item.path}>
                       <NavItem
                         icon={item.icon}
-                        classname='!flex hover:!bg-slate-700  hover:!text-amber-500 !text-amber-500 !rounded !p-2 !text-sm !group !transition-colors !items-center'
+                        classname="!flex hover:!bg-slate-700  hover:!text-amber-500 !text-amber-500 !rounded !p-2 !text-sm !group !transition-colors !items-center"
                         title={item.title}
                         path={item.path}
                       />

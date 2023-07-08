@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { modalTypes } from "./modalTypes";
 import { closeModal } from "../../../../store";
 
-export const Modal = ({ size, title, footer }) => {
+export const Modal = ({ size, footer }) => {
   const modal = useSelector((state) => state.modal);
   const ModalContent = modalTypes[modal.modalType];
   const dispatch = useDispatch();
+  const title = modal.modalProps.title;
   const sizeClasses = {
     s: "w-64 h-72",
     m: "w-3/4 h-2/3",
