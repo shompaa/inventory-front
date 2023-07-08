@@ -5,3 +5,4 @@ export * from "./container/container";
 export * from "./nav-item/nav-item";
 export * from "./table";
 export * from "./modal";
+export * from "./alert/alert";

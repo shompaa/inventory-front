@@ -9,6 +9,7 @@ import { Button, Input, UncontrolledInput } from "../ui/shared";
 import { SalesCard } from "../ui/shared/card/sale-card";
 import { closeModal, saleCreated } from "../../store";
 import { moneyFormat } from "../../utils/utils";
+import { toast } from "react-toastify";
 
 export const AddSale = () => {
   const schema = validateSalesForm();
@@ -116,11 +117,11 @@ export const AddSale = () => {
         voucher,
       };
       await saleDataMutate(saleData);
-      console.log("Venta guardada con éxito");
+      toast.success("Venta creada con éxito");
       dispatch(closeModal());
       dispatch(saleCreated());
     } catch (error) {
-      console.log(error);
+      toast.error("Error al crear la venta");
     }
   };
 
