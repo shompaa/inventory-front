@@ -130,7 +130,7 @@ export const AddSale = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 flex flex-col h-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <div className="pb-3">
@@ -170,8 +170,8 @@ export const AddSale = () => {
             )}
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-y-2 mt-4 md:mt-0">
-          <div className="overflow-y-auto h-64 md:h-auto grid grid-cols-1 gap-y-2">
+        <div className="flex flex-col">
+          <div className="overflow-y-auto">
             {products.map((product) => (
               <SalesCard
                 key={product.id}
@@ -183,15 +183,14 @@ export const AddSale = () => {
               />
             ))}
           </div>
-          <div className="bg-gray-200 border border-slate-200 shadow-sm rounded text-center">
-            <p className="font-mono font-semibold">
+          <div className="flex-shrink-0 w-full p-3">
+            <p className="font-mono font-semibold text-xl bg-amber-50">
               Total:{" "}
               <span className="font-normal text-slate-800">
                 {moneyFormat(total)}
               </span>
             </p>
-          </div>
-          <div className="w-full p-3">
+            <hr className="my-2" />
             <UncontrolledInput
               name="voucher"
               label="Ingrese el número de comprobante"
@@ -200,6 +199,7 @@ export const AddSale = () => {
               value={voucher}
               onChange={(e) => setVoucher(e.target.value)}
             />
+            <hr className="my-2" />
             <Button
               disabled={products.length <= 0 || !voucher}
               onClick={handleCreateSale}

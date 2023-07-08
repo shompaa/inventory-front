@@ -30,7 +30,7 @@ export const SalesCard = ({
 
   return (
     <div
-      className={`w-full flex flex-col md:flex-row items-stretch border border-gray-200 rounded ${
+      className={`w-full flex flex-col mb-2 md:flex-row items-stretch border border-gray-200 rounded ${
         stock <= 5 ? "bg-red-100" : ""
       }`}
       key={id}

@@ -20,6 +20,11 @@ const Sidebar = forwardRef(({ showNav }, ref) => {
       title: "Productos",
       roles: ["ADMIN", "SUPER_ADMIN"],
     },
+    {
+      path: "/users",
+      title: "Usuarios",
+      roles: ["SUPER_ADMIN"],
+    },
   ];
 
   return (

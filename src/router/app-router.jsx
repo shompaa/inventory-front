@@ -1,5 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import { Sales, Dashboard, Login, Logout } from "../components";
+import {
+  Sales,
+  Dashboard,
+  Login,
+  Logout,
+  Products,
+  Users,
+} from "../components";
 import { ProtectedRoute } from "./protected-route";
 
 export const AppRouter = () => {
@@ -13,15 +20,22 @@ export const AppRouter = () => {
       <Route path="/login" element={<Login />} />
       {/* <Route path="/register" element={<Register />} /> */}
       <Route path="/logout" element={<Logout />} />
-      <Route element={<ProtectedRoute allowedRoles={[...seller, ...admin]} />}>
+      <Route
+        element={
+          <ProtectedRoute allowedRoles={[...seller, ...admin, ...superAdmin]} />
+        }
+      >
         <Route path="/sales" element={<Sales />} />
       </Route>
-      <Route element={<ProtectedRoute allowedRoles={[...admin]} />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Route>
       <Route
-        element={<ProtectedRoute allowedRoles={[...superAdmin]} />}
-      ></Route>
+        element={<ProtectedRoute allowedRoles={[...admin, ...superAdmin]} />}
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/products" element={<Products />} />
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={[...superAdmin]} />}>
+        <Route path="/users" element={<Users />} />
+      </Route>
     </Routes>
   );
 };
