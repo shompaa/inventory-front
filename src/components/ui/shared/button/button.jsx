@@ -111,7 +111,6 @@ export const Button = React.forwardRef(
         {isLoading ? (
           <>
             <Icon icon="LoadingIcon" />
-            Loading...
           </>
         ) : (
           <>

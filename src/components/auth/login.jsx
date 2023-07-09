@@ -28,6 +28,7 @@ export const Login = () => {
       dispatch(login(resp));
       navigate("/dashboard");
     } catch ({ response: { status } }) {
+      setIsLoading(false);
       setErrorMessage(errorValidation[status]);
     }
   };
@@ -38,20 +39,19 @@ export const Login = () => {
 
     return () => {
       setErrorMessage(null);
-      setIsLoading(false);
     };
   }, [errors]);
 
   return (
-    <section className=" bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full  rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-white">
+    <section className="min-h-screen bg-gray-900 flex items-center justify-center sm:py-0 md:h-screen">
+      <div className="flex flex-col items-center justify-center px-4 py-4 sm:px-6 sm:py-8 md:px-6 lg:px-0 w-full sm:w-full md:max-w-md">
+        <div className="rounded-lg shadow border bg-gray-800 border-gray-700 w-full">
+          <div className="p-4 sm:p-6 md:p-8 space-y-2 sm:space-y-4 md:space-y-6">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight text-white">
               Iniciar sesión
             </h1>
             <form
-              className="space-y-4 md:space-y-6"
+              className="space-y-2 sm:space-y-4 md:space-y-6"
               onSubmit={handleSubmit(onSubmit)}
             >
               <div>
