@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Input, Button, Alert } from "../ui/shared";
 import { validateAuthForm } from "./utils/validations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { checkingCredentials, login } from "../../store";
@@ -14,6 +14,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const { mutateAsync: loginData } = useLogin();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -21,6 +22,7 @@ export const Login = () => {
   } = useForm();
   const onSubmit = async (data) => {
     try {
+      setIsLoading(true);
       dispatch(checkingCredentials());
       const resp = await loginData(data);
       dispatch(login(resp));
@@ -30,9 +32,14 @@ export const Login = () => {
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     errors.email && setErrorMessage(errors.email.message);
     errors.password && setErrorMessage(errors.password.message);
+
+    return () => {
+      setErrorMessage(null);
+      setIsLoading(false);
+    };
   }, [errors]);
 
   return (
@@ -72,15 +79,15 @@ export const Login = () => {
                 />
               </div>
               <div className="flex items-center w-full">
-                {errorMessage && (
-                  <Alert
-                    variant="danger"
-                    text={errorMessage}
-                  />
-                )}
+                {errorMessage && <Alert variant="danger" text={errorMessage} />}
               </div>
-              <Button variant="secondary" type="submit" fullWidth>
-                Iniciar sesion
+              <Button
+                variant="secondary"
+                type="submit"
+                isLoading={isLoading}
+                fullWidth
+              >
+                Iniciar sesión
               </Button>
             </form>
           </div>

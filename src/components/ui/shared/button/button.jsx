@@ -16,6 +16,7 @@ export const Button = React.forwardRef(
       rounded = "lg",
       ariaLabel,
       iconActive = false,
+      isLoading = false,
       ...props
     },
     ref
@@ -93,7 +94,7 @@ export const Button = React.forwardRef(
         ref={ref}
         aria-label={ariaLabel}
         type={type}
-        disabled={disabled || loading}
+        disabled={disabled || isLoading}
         className={`
           ${getButtonClass()}
           ${createSizeButton(size)}
@@ -104,12 +105,22 @@ export const Button = React.forwardRef(
           flex items-center justify-center
           focus:outline-none font-bold
           transition duration-200 ease-in-out
-          ${loading && "animate-spin"}
         `}
         {...props}
       >
-        {icon && <Icon variant={variant} iconActive={iconActive} icon={icon} />}
-        {children}
+        {isLoading ? (
+          <>
+            <Icon icon="LoadingIcon" />
+            Loading...
+          </>
+        ) : (
+          <>
+            {icon && (
+              <Icon variant={variant} iconActive={iconActive} icon={icon} />
+            )}
+            {children}
+          </>
+        )}
       </button>
     );
   }

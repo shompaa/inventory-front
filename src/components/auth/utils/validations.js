@@ -17,7 +17,7 @@ export const validateAuthForm = () => {
       },
       minLength: {
         value: 4,
-        message: "La contraseña debe tener al menos 6 caracteres",
+        message: "La contraseña debe tener al menos 4 caracteres",
       },
     },
   };

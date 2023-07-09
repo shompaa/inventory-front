@@ -18,6 +18,7 @@ export const AddSale = () => {
   const [voucher, setVoucher] = useState("");
   const [search, setSearch] = useState("");
   const [searchedProducts, setSearchedProducts] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data, isLoading, refetch, isError, isRefetching, error } =
@@ -112,6 +113,7 @@ export const AddSale = () => {
 
   const handleCreateSale = async () => {
     try {
+      setButtonLoading(true);
       const saleData = {
         products: products.map((product) => ({
           id: product.id,
@@ -203,6 +205,7 @@ export const AddSale = () => {
             <Button
               disabled={products.length <= 0 || !voucher}
               onClick={handleCreateSale}
+              isLoading={buttonLoading}
               fullWidth
             >
               Agregar venta

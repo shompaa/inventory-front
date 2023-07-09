@@ -6,3 +6,4 @@ export { default as SearchFileIcon } from "./search-file";
 export { default as SearchIcon } from "./search";
 export { default as SendIcon } from "./send";
 export { default as TextIcon } from "./text";
+export { default as LoadingIcon } from "./loading";
