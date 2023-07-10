@@ -36,12 +36,15 @@ export const SalesCard = ({
       key={id}
     >
       <div
-        className="h-24 w-full md:w-24 md:h-auto flex-shrink-0 bg-cover bg-center rounded-t md:rounded-t-none md:rounded-l text-center overflow-hidden border border-gray-200"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-        }}
+        className="h-24 w-full md:w-24 md:h-auto flex-shrink-0 rounded-t md:rounded-t-none md:rounded-l text-center overflow-hidden border border-gray-200 relative"
         title="name"
-      />
+      >
+        <img
+          src={imageUrl}
+          alt={name}
+          className="absolute h-full w-full object-cover"
+        />
+      </div>
       <div className="p-2 flex-1 flex flex-col justify-between leading-tight">
         <div>
           <p className="text-base text-gray-900 flex items-center">{name}</p>

@@ -33,7 +33,7 @@ export const Modal = ({ size, footer }) => {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className={`bg-white rounded-lg overflow-auto ${
+            className={`flex flex-col bg-white rounded-lg overflow-hidden ${
               sizeClasses[size] || sizeClasses.m
             }`}
             initial={{ y: "-100vh" }}
@@ -46,7 +46,7 @@ export const Modal = ({ size, footer }) => {
               </div>
             )}
 
-            <div className="px-4 py-2">
+            <div className="px-4 py-2 flex-grow overflow-y-auto">
               <ModalContent />
             </div>
 

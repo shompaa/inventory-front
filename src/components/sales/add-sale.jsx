@@ -131,8 +131,8 @@ export const AddSale = () => {
   };
 
   return (
-    <div className="p-4 flex flex-col h-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="p-4 flex flex-col h-full overflow-y-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
         <div>
           <div className="pb-3">
             <UncontrolledInput
@@ -172,7 +172,7 @@ export const AddSale = () => {
             )}
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-between">
           <div className="overflow-y-auto">
             {products.map((product) => (
               <SalesCard
@@ -185,7 +185,7 @@ export const AddSale = () => {
               />
             ))}
           </div>
-          <div className="flex-shrink-0 w-full p-3">
+          <div className="flex-shrink-0 w-full p-3 mt-auto">
             <p className="font-mono font-semibold text-xl bg-amber-50">
               Total:{" "}
               <span className="font-normal text-slate-800">
