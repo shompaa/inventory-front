@@ -1,5 +1,8 @@
 import { useQuery } from "react-query";
-import { getProductBySearchParam, getSales } from "../../../services/queries";
+import {
+  getProductBySearchParam,
+  getProducts,
+} from "../../../services/queries";
 
 export const useProductsBySearch = (search) => {
   return useQuery(
@@ -10,4 +13,8 @@ export const useProductsBySearch = (search) => {
       retry: 1,
     }
   );
+};
+
+export const useProducts = () => {
+  return useQuery("getProducts", () => getProducts());
 };

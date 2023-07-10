@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, TD, TR, Table, modalTypesKeys } from "../ui/shared";
+import { Button, Container, LoadingSpinner, TD, TR, Table, modalTypesKeys } from "../ui/shared";
 import { useDeleteSale, useSales } from "./hooks/use-sales";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal, saleReset } from "../../store";
@@ -58,27 +58,31 @@ export const Sales = () => {
         </Button>
       </div>
       <div className="flex-grow overflow-x-auto">
-        <Table titles={tableTitles}>
-          {data?.map((sale, index) => (
-            <TR key={sale.id} className="text-xs sm:text-base">
-              <TD>{index + 1}</TD>
-              <TD>{sale.orderId}</TD>
-              <TD>{sale.voucher}</TD>
-              <TD>{dateFormat(sale.date)}</TD>
-              <TD>{moneyFormat(sale.total)}</TD>
-              <TD>{sale.seller.name}</TD>
-              <TD>
-                <Button
-                  variant="link-danger"
-                  onClick={() => handleDeleteSale(sale.id)}
-                  className="text-xs sm:text-base"
-                >
-                  Eliminar
-                </Button>
-              </TD>
-            </TR>
-          ))}
-        </Table>
+        {isLoading ? (
+          <LoadingSpinner variant="default" />
+        ) : (
+          <Table titles={tableTitles}>
+            {data?.map((sale, index) => (
+              <TR key={sale.id} className="text-xs sm:text-base">
+                <TD>{index + 1}</TD>
+                <TD>{sale.orderId}</TD>
+                <TD>{sale.voucher}</TD>
+                <TD>{dateFormat(sale.date)}</TD>
+                <TD>{moneyFormat(sale.total)}</TD>
+                <TD>{sale.seller.name}</TD>
+                <TD>
+                  <Button
+                    variant="link-danger"
+                    onClick={() => handleDeleteSale(sale.id)}
+                    className="text-xs sm:text-base"
+                  >
+                    Eliminar
+                  </Button>
+                </TD>
+              </TR>
+            ))}
+          </Table>
+        )}
       </div>
     </Container>
   );

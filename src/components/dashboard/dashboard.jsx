@@ -1,5 +1,5 @@
 import { moneyFormat } from "../../utils/utils";
-import { Container, TD, TR, Table } from "../ui/shared";
+import { Container, LoadingSpinner, TD, TR, Table } from "../ui/shared";
 import { useDashboardStocks } from "./hooks/use-dashboard-stocks";
 
 const tableTitles = [
@@ -21,19 +21,23 @@ export const Dashboard = () => {
       <div className="grid grid-flow-row auto-cols-max gap-4">
         <div>
           <div className="w-full">
-            <Table titles={tableTitles}>
-              {data?.map((product, index) => (
-                <TR key={product.id}>
-                  <TD>{index + 1}</TD>
-                  <TD>{product.sku}</TD>
-                  <TD>{product.name}</TD>
-                  <TD>{product.brand}</TD>
-                  <TD>{product.size}ml</TD>
-                  <TD>{moneyFormat(product.price)}</TD>
-                  <TD>{product.stock}</TD>
-                </TR>
-              ))}
-            </Table>
+            {isLoading ? (
+              <LoadingSpinner variant="primary" />
+            ) : (
+              <Table titles={tableTitles}>
+                {data?.map((product, index) => (
+                  <TR key={product.id}>
+                    <TD>{index + 1}</TD>
+                    <TD>{product.sku}</TD>
+                    <TD>{product.name}</TD>
+                    <TD>{product.brand}</TD>
+                    <TD>{product.size}ml</TD>
+                    <TD>{moneyFormat(product.price)}</TD>
+                    <TD>{product.stock}</TD>
+                  </TR>
+                ))}
+              </Table>
+            )}
           </div>
         </div>
       </div>

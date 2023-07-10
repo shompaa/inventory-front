@@ -3,26 +3,24 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { set, useForm } from "react-hook-form";
 import { validateSalesForm } from "./utils/validations";
-import { useProductsBySearch } from "./hooks/use-products";
+import { useProducts } from "./hooks/use-products";
 import { useCreateSale } from "./hooks/use-sales";
-import { Button, Input, UncontrolledInput } from "../ui/shared";
+import { Button, Input, LoadingSpinner, UncontrolledInput } from "../ui/shared";
 import { SalesCard } from "../ui/shared/card/sale-card";
 import { closeModal, saleCreated } from "../../store";
 import { moneyFormat } from "../../utils/utils";
 import { toast } from "react-toastify";
 
 export const AddSale = () => {
-  const schema = validateSalesForm();
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [voucher, setVoucher] = useState("");
   const [search, setSearch] = useState("");
   const [searchedProducts, setSearchedProducts] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data, isLoading, refetch, isError, isRefetching, error } =
-    useProductsBySearch(search);
+    useProducts();
   const { mutateAsync: saleDataMutate } = useCreateSale();
   const {
     register,
@@ -44,20 +42,21 @@ export const AddSale = () => {
   }, []);
 
   useEffect(() => {
-    if (search) {
-      refetch().then(() => {
-        if (data) {
-          setSearchedProducts(data);
-        }
-      });
-    } else {
-      setSearchedProducts([]);
+    if (data) {
+      setSearchedProducts(data);
     }
+  }, [data]);
 
-    return () => {
-      setTotal(0);
-      setSearchedProducts([]);
-    };
+  useEffect(() => {
+    if (search) {
+      setSearchedProducts(
+        data.filter((product) =>
+          product.name.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    } else {
+      setSearchedProducts(data);
+    }
   }, [search, data]);
 
   const handleAddProduct = (product, quantity) => {
@@ -107,8 +106,8 @@ export const AddSale = () => {
     );
   }, []);
 
-  const onSubmit = (data) => {
-    setSearch(data.search || "");
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
   };
 
   const handleCreateSale = async () => {
@@ -136,25 +135,26 @@ export const AddSale = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <div className="pb-3">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Input
-                register={register}
-                schema={schema}
-                name="search"
-                label="Buscar producto"
-                placeholder="Buscar..."
-                variant="primary-search"
-                button={{
-                  variant: "primary",
-                  type: "submit",
-                  children: "Buscar",
-                  icon: "SearchIcon",
-                }}
-              />
-            </form>
+            <UncontrolledInput
+              type="text"
+              name="search"
+              label="Buscar producto"
+              placeholder="Buscar..."
+              variant="primary-search"
+              onChange={handleSearchChange}
+              value={search}
+              button={{
+                variant: "primary",
+                type: "submit",
+                children: "Buscar",
+                icon: "SearchIcon",
+              }}
+            />
           </div>
           <div className="overflow-y-auto h-64 md:h-auto grid grid-cols-1 gap-y-2">
-            {searchedProducts.length > 0 ? (
+            {isLoading ? (
+              <LoadingSpinner variant="default" />
+            ) : searchedProducts && searchedProducts.length > 0 ? (
               searchedProducts?.map((product) => {
                 const cartProduct = products.find((p) => p.id === product.id);
                 const cartQuantity = cartProduct ? cartProduct.quantity : 0;
