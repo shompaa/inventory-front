@@ -12,7 +12,7 @@ export const InfiniteScroll = ({ hasMore, onLoadMore }) => {
             : "bg-slate-300 text-slate-400 cursor-not-allowed"
         }`}
       >
-        Load More
+        Cargar más...
       </button>
     </div>
   );

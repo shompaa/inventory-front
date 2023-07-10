@@ -27,8 +27,15 @@ const tableTitles = [
 
 export const Sales = () => {
   const dispatch = useDispatch();
-  const { data, isLoading, isError, error, fetchNextPage, hasNextPage } =
-    useSales();
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useSales();
   const sales = data?.pages.flatMap((page) => page.data) || [];
   const saleCreated = useSelector((state) => state.sales.saleCreated);
   const { mutateAsync: deleteSaleMutate } = useDeleteSale();
