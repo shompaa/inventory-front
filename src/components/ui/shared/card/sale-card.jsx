@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { moneyFormat } from "../../../../utils/utils";
+import { Badge } from "../badge/badge";
 
 export const SalesCard = ({
   id,
@@ -30,9 +31,7 @@ export const SalesCard = ({
 
   return (
     <div
-      className={`w-full flex flex-col mb-2 md:flex-row items-stretch border border-gray-200 rounded ${
-        stock <= 5 ? "bg-red-100" : ""
-      }`}
+      className="w-full flex flex-col mb-2 md:flex-row items-stretch border border-gray-200 rounded"
       key={id}
     >
       <div
@@ -55,13 +54,10 @@ export const SalesCard = ({
         </div>
 
         <div>
-          <p
-            className={`text-xs ${
-              stock <= 5 ? "text-red-500" : "text-gray-600"
-            }`}
-          >
-            Stock: {stock}
-          </p>
+          <Badge
+            label={`Stock: ${stock}`}
+            variant={stock <= 5 ? "danger" : "default"}
+          />
           <div className="flex flex-col md:flex-row md:items-center justify-between mt-2">
             <p className="text-amber-700 font-semibold mb-2 md:mb-0 md:mr-2">
               {moneyFormat(price)}

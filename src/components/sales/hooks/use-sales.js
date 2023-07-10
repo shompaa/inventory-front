@@ -1,9 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 import { getSales } from "../../../services/queries";
 import { createSale, deleteSale } from "../../../services/mutations";
 
 export const useSales = () => {
-  return useQuery("getSales", () => getSales());
+  return useInfiniteQuery(
+    "getSales",
+    ({ pageParam = null }) => getSales({ startAt: pageParam }),
+    {
+      getNextPageParam: (lastPage) => lastPage.hasMore && lastPage.startAt,
+    }
+  );
 };
 
 export const useCreateSale = () => {
@@ -24,4 +30,4 @@ export const useDeleteSale = () => {
       queryClient.invalidateQueries("deleteSales");
     },
   });
-}
+};

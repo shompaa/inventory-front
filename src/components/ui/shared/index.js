@@ -7,3 +7,4 @@ export * from "./table";
 export * from "./modal";
 export * from "./alert/alert";
 export * from "./loading/loading";
+export * from "./badge/badge";

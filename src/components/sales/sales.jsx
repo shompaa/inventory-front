@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, LoadingSpinner, TD, TR, Table, modalTypesKeys } from "../ui/shared";
+import {
+  Button,
+  Container,
+  LoadingSpinner,
+  TD,
+  TR,
+  Table,
+  modalTypesKeys,
+} from "../ui/shared";
 import { useDeleteSale, useSales } from "./hooks/use-sales";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal, saleReset } from "../../store";
 import { dateFormat, moneyFormat } from "../../utils/utils";
 import { AddSale } from "./add-sale";
+import { InfiniteScroll } from "../ui/shared/pagination/pagination";
 
 const tableTitles = [
   "#",
@@ -18,7 +27,9 @@ const tableTitles = [
 
 export const Sales = () => {
   const dispatch = useDispatch();
-  const { data, isLoading, refetch, isError, isRefetching, error } = useSales();
+  const { data, isLoading, isError, error, fetchNextPage, hasNextPage } =
+    useSales();
+  const sales = data?.pages.flatMap((page) => page.data) || [];
   const saleCreated = useSelector((state) => state.sales.saleCreated);
   const { mutateAsync: deleteSaleMutate } = useDeleteSale();
 
@@ -61,27 +72,33 @@ export const Sales = () => {
         {isLoading ? (
           <LoadingSpinner variant="default" />
         ) : (
-          <Table titles={tableTitles}>
-            {data?.map((sale, index) => (
-              <TR key={sale.id} className="text-xs sm:text-base">
-                <TD>{index + 1}</TD>
-                <TD>{sale.orderId}</TD>
-                <TD>{sale.voucher}</TD>
-                <TD>{dateFormat(sale.date)}</TD>
-                <TD>{moneyFormat(sale.total)}</TD>
-                <TD>{sale.seller.name}</TD>
-                <TD>
-                  <Button
-                    variant="link-danger"
-                    onClick={() => handleDeleteSale(sale.id)}
-                    className="text-xs sm:text-base"
-                  >
-                    Eliminar
-                  </Button>
-                </TD>
-              </TR>
-            ))}
-          </Table>
+          <>
+            <Table titles={tableTitles}>
+              {sales.map((sale, index) => (
+                <TR key={sale.id} className="text-xs sm:text-base">
+                  <TD>{index + 1}</TD>
+                  <TD>{sale.orderId}</TD>
+                  <TD>{sale.voucher}</TD>
+                  <TD>{dateFormat(sale.date)}</TD>
+                  <TD>{moneyFormat(sale.total)}</TD>
+                  <TD>{sale.seller.name}</TD>
+                  <TD>
+                    <Button
+                      variant="link-danger"
+                      onClick={() => handleDeleteSale(sale.id)}
+                      className="text-xs sm:text-base"
+                    >
+                      Eliminar
+                    </Button>
+                  </TD>
+                </TR>
+              ))}
+            </Table>
+            <InfiniteScroll
+              hasMore={hasNextPage}
+              onLoadMore={() => fetchNextPage()}
+            />
+          </>
         )}
       </div>
     </Container>
