@@ -5,6 +5,7 @@ export const TH = ({ label }) => {
     <th
       scope="col"
       className="px-6 py-4 font-medium text-slate-900 text-center sm:text-left"
+      colSpan={label === "" ? 2 : 1}
     >
       {label}
     </th>

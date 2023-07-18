@@ -131,7 +131,7 @@ export const AddSale = () => {
   };
 
   return (
-    <div className="p-4 flex flex-col h-full overflow-y-auto">
+    <div className="p-4 flex flex-col h-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
         <div>
           <div className="pb-3">
@@ -151,7 +151,7 @@ export const AddSale = () => {
               }}
             />
           </div>
-          <div className="overflow-y-auto h-64 md:h-auto grid grid-cols-1 gap-y-2">
+          <div className="overflow-y-auto h-96 grid grid-cols-1 gap-y-2">
             {isLoading ? (
               <LoadingSpinner variant="default" />
             ) : searchedProducts && searchedProducts.length > 0 ? (

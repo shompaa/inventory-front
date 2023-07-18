@@ -14,6 +14,7 @@ import { openModal, saleReset } from "../../store";
 import { dateFormat, moneyFormat } from "../../utils/utils";
 import { AddSale } from "./add-sale";
 import { InfiniteScroll } from "../ui/shared/pagination/pagination";
+import { toast } from "react-toastify";
 
 const tableTitles = [
   "#",
@@ -61,10 +62,10 @@ export const Sales = () => {
   const handleDeleteSale = async (saleId) => {
     try {
       await deleteSaleMutate(saleId);
-      console.log("Venta eliminada con éxito");
+      toast.success("Venta eliminada con éxito");
       refetch();
     } catch (error) {
-      console.error("Error al eliminar la venta", error);
+      toast.error("Error al eliminar la venta");
     }
   };
 
@@ -78,7 +79,7 @@ export const Sales = () => {
       <div className="flex-grow overflow-x-auto">
         {isLoading ? (
           <LoadingSpinner variant="default" />
-        ) : (
+        ) : sales.length > 0 ? (
           <>
             <Table titles={tableTitles}>
               {sales.map((sale, index) => (
@@ -106,6 +107,10 @@ export const Sales = () => {
               onLoadMore={() => fetchNextPage()}
             />
           </>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full">
+            <p className="text-2xl font-bold p-6">No hay ventas</p>
+          </div>
         )}
       </div>
     </Container>

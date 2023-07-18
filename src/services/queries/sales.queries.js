@@ -11,7 +11,6 @@ export async function getSales({ pageSize, startAt } = {}) {
     params.startAt = startAt;
   }
   const response = await client.get(SALES_URL, { params });
-  console.log(response);
   return Promise.resolve(response?.data);
 }
 

@@ -3,13 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../../store";
 
-export const Modal = ({ size, footer }) => {
+export const Modal = () => {
   const modal = useSelector((state) => state.modal);
-  const ModalContent = modal.modalProps.ModalContent;
+  const { ModalContent, title, size, footer } = modal.modalProps;
   const dispatch = useDispatch();
-  const title = modal.modalProps.title;
   const sizeClasses = {
-    s: "w-64 h-72",
+    xs: "w-64 h-72",
+    s: "w-1/2 h-3/4",
     m: "w-3/4 h-2/3",
     l: "w-full h-3/4",
     xl: "w-full h-full max-w-screen-xl max-h-screen-90",
