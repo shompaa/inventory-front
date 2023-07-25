@@ -5,7 +5,7 @@ import { closeModal } from "../../../../store";
 
 export const Modal = () => {
   const modal = useSelector((state) => state.modal);
-  const { ModalContent, title, size, footer } = modal.modalProps;
+  const { ModalContent, title, size, footer, ...otherProps } = modal.modalProps;
   const dispatch = useDispatch();
   const sizeClasses = {
     xs: "w-64 h-72",
@@ -47,7 +47,7 @@ export const Modal = () => {
             )}
 
             <div className="px-4 py-2 flex-grow overflow-y-auto">
-              <ModalContent />
+              <ModalContent {...otherProps} />
             </div>
 
             {footer && <div className="px-4 py-2 border-t">{footer}</div>}

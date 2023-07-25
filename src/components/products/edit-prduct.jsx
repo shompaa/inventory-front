@@ -1,18 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "../ui/shared";
 import { validateProductForm } from "./utils/validations";
-import { useCreateProduct } from "./hooks/use-products";
+import { useEditProduct } from "./hooks/use-products";
 import { toast } from "react-toastify";
 import { closeModal, productCreated } from "../../store";
 import { useDispatch } from "react-redux";
 
-export const AddProduct = () => {
+export const EditProduct = (props) => {
   const dispatch = useDispatch();
   const inputRef = useRef();
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState(null);
   const schema = validateProductForm();
+  const initialData = props.data;
+  const id = initialData.id;
   const {
     register,
     handleSubmit,
@@ -20,9 +22,22 @@ export const AddProduct = () => {
     setFocus,
     setValue,
     watch,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: initialData?.name,
+      brand: initialData?.brand,
+      size: initialData?.size,
+      stock: initialData?.stock,
+      price: initialData?.price,
+    },
+  });
+  const { mutateAsync: editProductMutate } = useEditProduct();
 
-  const { mutateAsync: createProductMutate } = useCreateProduct();
+  useEffect(() => {
+    if (initialData?.imageUrl) {
+      setFile(initialData.imageUrl);
+    }
+  }, [initialData]);
 
   const onSubmit = async (data) => {
     try {
@@ -37,8 +52,9 @@ export const AddProduct = () => {
       if (file) {
         formData.append("image", file);
       }
-      await createProductMutate(formData);
-      toast.success("Producto creado exitosamente");
+
+      await editProductMutate({ data: formData, id });
+      toast.success("Producto editado exitosamente");
       dispatch(closeModal());
       dispatch(productCreated());
     } catch (error) {
@@ -117,9 +133,11 @@ export const AddProduct = () => {
           <div className="p-2">
             {file && (
               <div className="my-2">
+                {/* Verificar si el archivo es un objeto File, si es así crear una URL de objeto, 
+          si no, asumir que es una URL de imagen existente */}
                 <img
                   className="h-24"
-                  src={URL.createObjectURL(file)}
+                  src={file instanceof File ? URL.createObjectURL(file) : file}
                   alt="Selected"
                 />
               </div>
@@ -138,7 +156,7 @@ export const AddProduct = () => {
           </div>
           <div className="flex justify-end">
             <Button variant="secondary" type="submit" fullWidth>
-              Añadir producto
+              Editar producto
             </Button>
           </div>
         </form>

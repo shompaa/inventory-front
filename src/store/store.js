@@ -24,4 +24,4 @@ export const store = configureStore({
 export const useUser = () => useSelector((state) => state.auth);
 export const useModal = () => useSelector((state) => state.modal);
 export const useSales = () => useSelector((state) => state.sales);
-export const useProducts = () => useSelector((state) => state.products);
+export const useProductsStore = () => useSelector((state) => state.products);

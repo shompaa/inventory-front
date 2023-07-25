@@ -12,8 +12,8 @@ export const TH = ({ label }) => {
   );
 };
 
-export const TD = ({ children }) => {
-  return <td className="px-2 sm:px-6 py-4">{children}</td>;
+export const TD = ({ children, className }) => {
+  return <td className={`px-2 sm:px-6 py-4 ${className}`}>{children}</td>;
 };
 
 export const TR = ({ children }) => {

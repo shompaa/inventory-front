@@ -15,6 +15,6 @@ export async function getProductsPaginated({ pageSize, startAt } = {}) {
   if (startAt) {
     params.startAt = startAt;
   }
-  const response = await client.get(PRODUCTS_URL, { params });
+  const response = await client.get(`${PRODUCTS_URL}/paginated`, { params });
   return Promise.resolve(response?.data);
 }
