@@ -6,6 +6,7 @@ import { useEditProduct } from "./hooks/use-products";
 import { toast } from "react-toastify";
 import { closeModal, productCreated } from "../../store";
 import { useDispatch } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 export const EditProduct = (props) => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export const EditProduct = (props) => {
   const schema = validateProductForm();
   const initialData = props.data;
   const id = initialData.id;
+
   const {
     register,
     handleSubmit,
@@ -31,7 +33,11 @@ export const EditProduct = (props) => {
       price: initialData?.price,
     },
   });
+
   const { mutateAsync: editProductMutate } = useEditProduct();
+
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
+  const formPadding = isMobile ? "px-4" : "px-12";
 
   useEffect(() => {
     if (initialData?.imageUrl) {
@@ -71,7 +77,7 @@ export const EditProduct = (props) => {
 
   return (
     <div className="p-4 flex flex-col h-full overflow-y-auto">
-      <div className="justify-center px-36 gap-1">
+      <div className={`justify-center ${formPadding} gap-1`}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="p-2">
             <Input
@@ -154,7 +160,7 @@ export const EditProduct = (props) => {
               <p>{fileName}</p>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-2">
             <Button variant="secondary" type="submit" fullWidth>
               Editar producto
             </Button>

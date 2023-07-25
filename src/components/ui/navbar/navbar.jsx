@@ -30,7 +30,7 @@ const Navbar = ({ showNav, setShowNav }) => {
 
   return (
     <div
-      className={`fixed w-full h-16 flex justify-between items-center transition-all duration-300 ${
+      className={`fixed w-full h-16 flex justify-between items-center transition-all duration-300 bg-slate-100 border-b border-slate-200 shadow-sm ${
         showNav ? "pl-56" : ""
       }`}
     >

@@ -6,6 +6,7 @@ import { useCreateProduct } from "./hooks/use-products";
 import { toast } from "react-toastify";
 import { closeModal, productCreated } from "../../store";
 import { useDispatch } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 export const AddProduct = () => {
   const dispatch = useDispatch();
@@ -17,12 +18,12 @@ export const AddProduct = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setFocus,
-    setValue,
-    watch,
   } = useForm();
 
   const { mutateAsync: createProductMutate } = useCreateProduct();
+
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
+  const formPadding = isMobile ? "px-4" : "px-12";
 
   const onSubmit = async (data) => {
     try {
@@ -55,7 +56,7 @@ export const AddProduct = () => {
 
   return (
     <div className="p-4 flex flex-col h-full overflow-y-auto">
-      <div className="justify-center px-36 gap-1">
+      <div className={`justify-center ${formPadding} gap-1`}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="p-2">
             <Input
@@ -136,7 +137,7 @@ export const AddProduct = () => {
               <p>{fileName}</p>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-2">
             <Button variant="secondary" type="submit" fullWidth>
               Añadir producto
             </Button>

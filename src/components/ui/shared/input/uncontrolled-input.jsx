@@ -44,9 +44,11 @@ export const UncontrolledInput = ({
 
   return (
     <div>
-      <label htmlFor={name} className={getLabelClass()}>
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={name} className={getLabelClass()}>
+          {label}
+        </label>
+      )}
       <div className="flex items-center">
         <input
           type={type}

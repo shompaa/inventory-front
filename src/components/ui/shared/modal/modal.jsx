@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../../store";
+import { useMediaQuery } from "react-responsive";
 
 export const Modal = () => {
   const modal = useSelector((state) => state.modal);
@@ -14,6 +15,9 @@ export const Modal = () => {
     l: "w-full h-3/4",
     xl: "w-full h-full max-w-screen-xl max-h-screen-90",
   };
+
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
+  const chosenSize = isMobile ? "xl" : size;
 
   useEffect(() => {
     if (modal.isOpen) {
@@ -34,7 +38,7 @@ export const Modal = () => {
         >
           <motion.div
             className={`flex flex-col bg-white rounded-lg overflow-hidden ${
-              sizeClasses[size] || sizeClasses.m
+              sizeClasses[chosenSize] || sizeClasses.m
             }`}
             initial={{ y: "-100vh" }}
             animate={{ y: 0 }}

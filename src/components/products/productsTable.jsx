@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import {
   Button,
@@ -25,19 +25,25 @@ const tableTitles = [
   "",
 ];
 
-export const ProductsTable = ({ handleOpenEditModal }) => {
+export const ProductsTable = ({ handleOpenEditModal, searchTerm }) => {
   const dispatch = useDispatch();
   const productsStore = useProductsStore((state) => state.products);
   const [currentPage, setCurrentPage] = useState(1);
   const { mutateAsync: deleteProductMutate } = useDeleteProduct();
+  const productsPerPage = 5;
 
-  const productsPerPage = 10;
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   if (!productsStore || !productsStore.data) {
     return <LoadingSpinner variant="default" />;
   }
 
   const products = productsStore.data;
+  const filteredProducts = products.filter((product) =>
+    product?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -54,7 +60,7 @@ export const ProductsTable = ({ handleOpenEditModal }) => {
   };
 
   const startIndex = (currentPage - 1) * productsPerPage;
-  const selectedProducts = products.slice(
+  const selectedProducts = filteredProducts.slice(
     startIndex,
     startIndex + productsPerPage
   );
@@ -101,7 +107,7 @@ export const ProductsTable = ({ handleOpenEditModal }) => {
 
       <div className="text-center">
         <Pagination
-          total={products.length}
+          total={filteredProducts.length}
           current={currentPage}
           onPageChange={handlePageChange}
           productsPerPage={productsPerPage}

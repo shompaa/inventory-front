@@ -29,7 +29,7 @@ export const Pagination = ({
   const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
 
   return (
-    <nav aria-label="Page navigation example">
+    <nav className="m-4">
       <ul className="inline-flex -space-x-px text-sm">
         <li>
           <button

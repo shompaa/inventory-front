@@ -12,7 +12,7 @@ export const TH = ({ label }) => {
   );
 };
 
-export const TD = ({ children, className }) => {
+export const TD = ({ children, className = "" }) => {
   return <td className={`px-2 sm:px-6 py-4 ${className}`}>{children}</td>;
 };
 
@@ -22,9 +22,9 @@ export const TR = ({ children }) => {
 
 export const Table = ({ titles, children }) => {
   return (
-    <div className="rounded-lg border border-gray-200 shadow-md m-5">
-      <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-        <thead className="bg-gray-50">
+    <div className="border border-gray-200 shadow-md m-1 rounded-xl">
+      <table className="w-full border-collapse bg-white text-left text-sm text-slate-600 rounded-xl">
+        <thead>
           <tr>
             {titles.map((title) => (
               <TH key={title} label={title} />
