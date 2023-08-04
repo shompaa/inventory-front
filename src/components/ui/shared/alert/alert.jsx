@@ -14,7 +14,7 @@ export const Alert = ({ variant, icon, text }) => {
 
   return (
     <div
-      className={`flex justify-center p-2 text-sm ${classes} rounded-lg w-full`}
+      className={`flex justify-center p-2 text-sm ${classes} rounded-lg w-full items-center`}
       role="alert"
     >
       {icon && (

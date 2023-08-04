@@ -9,3 +9,4 @@ export { default as TextIcon } from "./text";
 export { default as LoadingIcon } from "./loading";
 export { default as DeleteIcon } from "./delete";
 export { default as EditIcon } from "./edit";
+export { default as CheckIcon } from "./check";
