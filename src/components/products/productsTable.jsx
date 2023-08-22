@@ -11,6 +11,7 @@ import {
 import { productCreated, useProductsStore } from "../../store";
 import { moneyFormat } from "../../utils/utils";
 import { useDeleteProduct } from "./hooks/use-products";
+import noImage from "../../assets/images/noImage.png";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -75,9 +76,10 @@ export const ProductsTable = ({ handleOpenEditModal, searchTerm }) => {
               <LazyLoadImage
                 src={product.imageUrl}
                 alt={product.name}
-                className="h-16 w-16"
+                className={`h-16 w-16`}
                 loading="lazy"
-                placeholderSrc={"src/assets/images/noImage.png"}
+                placeholderSrc={product.imageUrl || noImage}
+                threshold={50}
               />
             </TD>
             <TD>{product.name}</TD>
